@@ -5,10 +5,14 @@ FILE_NAME = "contacts.json"
 
 # Load contacts from file
 def load_contacts():
-    if os.path.exists(FILE_NAME):
+    if not os.path.exists(FILE_NAME):
+        return{}
+    try:
         with open(FILE_NAME, "r") as f:
             return json.load(f)
-    return {}
+    except (json.JSONDecodeError, IOError):
+        print("Error loading contacts. Starting with an Empty book.")
+        return {}
 
 # Save contacts to file
 def save_contacts(contacts):
